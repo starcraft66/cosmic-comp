@@ -188,7 +188,7 @@ impl State {
             }
 
             Action::NextWorkspace => {
-                if let Some(direction) = pattern.inferred_direction() {
+                if let Some(direction) = direction.or_else(|| pattern.inferred_direction()) {
                     if ((direction == Direction::Left || direction == Direction::Right)
                         && self.common.config.cosmic_conf.workspaces.workspace_layout
                             == WorkspaceLayout::Vertical)
@@ -234,7 +234,7 @@ impl State {
             }
 
             Action::PreviousWorkspace => {
-                if let Some(direction) = pattern.inferred_direction() {
+                if let Some(direction) = direction.or_else(|| pattern.inferred_direction()) {
                     if ((direction == Direction::Left || direction == Direction::Right)
                         && self.common.config.cosmic_conf.workspaces.workspace_layout
                             == WorkspaceLayout::Vertical)
@@ -336,7 +336,7 @@ impl State {
             }
 
             x @ Action::MoveToNextWorkspace | x @ Action::SendToNextWorkspace => {
-                if let Some(direction) = pattern.inferred_direction() {
+                if let Some(direction) = direction.or_else(|| pattern.inferred_direction()) {
                     if ((direction == Direction::Left || direction == Direction::Right)
                         && self.common.config.cosmic_conf.workspaces.workspace_layout
                             == WorkspaceLayout::Vertical)
@@ -420,7 +420,7 @@ impl State {
             }
 
             x @ Action::MoveToPreviousWorkspace | x @ Action::SendToPreviousWorkspace => {
-                if let Some(direction) = pattern.inferred_direction() {
+                if let Some(direction) = direction.or_else(|| pattern.inferred_direction()) {
                     if ((direction == Direction::Left || direction == Direction::Right)
                         && self.common.config.cosmic_conf.workspaces.workspace_layout
                             == WorkspaceLayout::Vertical)
