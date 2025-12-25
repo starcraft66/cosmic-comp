@@ -208,7 +208,7 @@ impl State {
                 );
                 if next.is_err() {
                     if propagate {
-                        if let Some(inferred) = pattern.inferred_direction() {
+                        if let Some(inferred) = direction.or_else(|| pattern.inferred_direction()) {
                             self.handle_shortcut_action(
                                 Action::SwitchOutput(inferred),
                                 seat,
@@ -254,7 +254,7 @@ impl State {
                 );
                 if previous.is_err() {
                     if propagate {
-                        if let Some(inferred) = pattern.inferred_direction() {
+                        if let Some(inferred) = direction.or_else(|| pattern.inferred_direction()) {
                             self.handle_shortcut_action(
                                 Action::SwitchOutput(inferred),
                                 seat,
@@ -384,7 +384,7 @@ impl State {
                     }
                     Ok(None) => {}
                     Err(_) if propagate => {
-                        if let Some(inferred) = pattern.inferred_direction() {
+                        if let Some(inferred) = direction.or_else(|| pattern.inferred_direction()) {
                             self.handle_shortcut_action(
                                 if matches!(x, Action::MoveToNextWorkspace) {
                                     Action::MoveToOutput(inferred)
@@ -467,7 +467,7 @@ impl State {
                     }
                     Ok(None) => {}
                     Err(_) if propagate => {
-                        if let Some(inferred) = pattern.inferred_direction() {
+                        if let Some(inferred) = direction.or_else(|| pattern.inferred_direction()) {
                             self.handle_shortcut_action(
                                 if matches!(x, Action::MoveToPreviousWorkspace) {
                                     Action::MoveToOutput(inferred)
