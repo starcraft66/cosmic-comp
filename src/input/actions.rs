@@ -188,11 +188,11 @@ impl State {
             }
 
             Action::NextWorkspace => {
-                if let Some(direction) = direction.or_else(|| pattern.inferred_direction()) {
-                    if ((direction == Direction::Left || direction == Direction::Right)
+                if let Some(dir) = direction {
+                    if ((dir == Direction::Left || dir == Direction::Right)
                         && self.common.config.cosmic_conf.workspaces.workspace_layout
                             == WorkspaceLayout::Vertical)
-                        || ((direction == Direction::Up || direction == Direction::Down)
+                        || ((dir == Direction::Up || dir == Direction::Down)
                             && self.common.config.cosmic_conf.workspaces.workspace_layout
                                 == WorkspaceLayout::Horizontal)
                     {
@@ -208,9 +208,9 @@ impl State {
                 );
                 if next.is_err() {
                     if propagate {
-                        if let Some(inferred) = direction.or_else(|| pattern.inferred_direction()) {
+                        if let Some(dir) = direction {
                             self.handle_shortcut_action(
-                                Action::SwitchOutput(inferred),
+                                Action::SwitchOutput(dir),
                                 seat,
                                 serial,
                                 time,
@@ -234,11 +234,11 @@ impl State {
             }
 
             Action::PreviousWorkspace => {
-                if let Some(direction) = direction.or_else(|| pattern.inferred_direction()) {
-                    if ((direction == Direction::Left || direction == Direction::Right)
+                if let Some(dir) = direction {
+                    if ((dir == Direction::Left || dir == Direction::Right)
                         && self.common.config.cosmic_conf.workspaces.workspace_layout
                             == WorkspaceLayout::Vertical)
-                        || ((direction == Direction::Up || direction == Direction::Down)
+                        || ((dir == Direction::Up || dir == Direction::Down)
                             && self.common.config.cosmic_conf.workspaces.workspace_layout
                                 == WorkspaceLayout::Horizontal)
                     {
@@ -254,9 +254,9 @@ impl State {
                 );
                 if previous.is_err() {
                     if propagate {
-                        if let Some(inferred) = direction.or_else(|| pattern.inferred_direction()) {
+                        if let Some(dir) = direction {
                             self.handle_shortcut_action(
-                                Action::SwitchOutput(inferred),
+                                Action::SwitchOutput(dir),
                                 seat,
                                 serial,
                                 time,
@@ -336,11 +336,11 @@ impl State {
             }
 
             x @ Action::MoveToNextWorkspace | x @ Action::SendToNextWorkspace => {
-                if let Some(direction) = direction.or_else(|| pattern.inferred_direction()) {
-                    if ((direction == Direction::Left || direction == Direction::Right)
+                if let Some(dir) = direction {
+                    if ((dir == Direction::Left || dir == Direction::Right)
                         && self.common.config.cosmic_conf.workspaces.workspace_layout
                             == WorkspaceLayout::Vertical)
-                        || ((direction == Direction::Up || direction == Direction::Down)
+                        || ((dir == Direction::Up || dir == Direction::Down)
                             && self.common.config.cosmic_conf.workspaces.workspace_layout
                                 == WorkspaceLayout::Horizontal)
                     {
@@ -384,12 +384,12 @@ impl State {
                     }
                     Ok(None) => {}
                     Err(_) if propagate => {
-                        if let Some(inferred) = direction.or_else(|| pattern.inferred_direction()) {
+                        if let Some(dir) = direction {
                             self.handle_shortcut_action(
                                 if matches!(x, Action::MoveToNextWorkspace) {
-                                    Action::MoveToOutput(inferred)
+                                    Action::MoveToOutput(dir)
                                 } else {
-                                    Action::SendToOutput(inferred)
+                                    Action::SendToOutput(dir)
                                 },
                                 seat,
                                 serial,
@@ -420,11 +420,11 @@ impl State {
             }
 
             x @ Action::MoveToPreviousWorkspace | x @ Action::SendToPreviousWorkspace => {
-                if let Some(direction) = direction.or_else(|| pattern.inferred_direction()) {
-                    if ((direction == Direction::Left || direction == Direction::Right)
+                if let Some(dir) = direction {
+                    if ((dir == Direction::Left || dir == Direction::Right)
                         && self.common.config.cosmic_conf.workspaces.workspace_layout
                             == WorkspaceLayout::Vertical)
-                        || ((direction == Direction::Up || direction == Direction::Down)
+                        || ((dir == Direction::Up || dir == Direction::Down)
                             && self.common.config.cosmic_conf.workspaces.workspace_layout
                                 == WorkspaceLayout::Horizontal)
                     {
@@ -467,12 +467,12 @@ impl State {
                     }
                     Ok(None) => {}
                     Err(_) if propagate => {
-                        if let Some(inferred) = direction.or_else(|| pattern.inferred_direction()) {
+                        if let Some(dir) = direction {
                             self.handle_shortcut_action(
                                 if matches!(x, Action::MoveToPreviousWorkspace) {
-                                    Action::MoveToOutput(inferred)
+                                    Action::MoveToOutput(dir)
                                 } else {
-                                    Action::SendToOutput(inferred)
+                                    Action::SendToOutput(dir)
                                 },
                                 seat,
                                 serial,
