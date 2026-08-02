@@ -188,7 +188,7 @@ impl State {
             }
 
             Action::NextWorkspace => {
-                if let Some(direction) = pattern.inferred_direction() {
+                if let Some(direction) = direction {
                     if ((direction == Direction::Left || direction == Direction::Right)
                         && self.common.config.cosmic_conf.workspaces.workspace_layout
                             == WorkspaceLayout::Vertical)
@@ -208,7 +208,7 @@ impl State {
                 );
                 if next.is_err() {
                     if propagate {
-                        if let Some(inferred) = pattern.inferred_direction() {
+                        if let Some(inferred) = direction {
                             self.handle_shortcut_action(
                                 Action::SwitchOutput(inferred),
                                 seat,
@@ -234,7 +234,7 @@ impl State {
             }
 
             Action::PreviousWorkspace => {
-                if let Some(direction) = pattern.inferred_direction() {
+                if let Some(direction) = direction {
                     if ((direction == Direction::Left || direction == Direction::Right)
                         && self.common.config.cosmic_conf.workspaces.workspace_layout
                             == WorkspaceLayout::Vertical)
@@ -254,7 +254,7 @@ impl State {
                 );
                 if previous.is_err() {
                     if propagate {
-                        if let Some(inferred) = pattern.inferred_direction() {
+                        if let Some(inferred) = direction {
                             self.handle_shortcut_action(
                                 Action::SwitchOutput(inferred),
                                 seat,
@@ -336,7 +336,7 @@ impl State {
             }
 
             x @ Action::MoveToNextWorkspace | x @ Action::SendToNextWorkspace => {
-                if let Some(direction) = pattern.inferred_direction() {
+                if let Some(direction) = direction {
                     if ((direction == Direction::Left || direction == Direction::Right)
                         && self.common.config.cosmic_conf.workspaces.workspace_layout
                             == WorkspaceLayout::Vertical)
@@ -384,7 +384,7 @@ impl State {
                     }
                     Ok(None) => {}
                     Err(_) if propagate => {
-                        if let Some(inferred) = pattern.inferred_direction() {
+                        if let Some(inferred) = direction {
                             self.handle_shortcut_action(
                                 if matches!(x, Action::MoveToNextWorkspace) {
                                     Action::MoveToOutput(inferred)
@@ -420,7 +420,7 @@ impl State {
             }
 
             x @ Action::MoveToPreviousWorkspace | x @ Action::SendToPreviousWorkspace => {
-                if let Some(direction) = pattern.inferred_direction() {
+                if let Some(direction) = direction {
                     if ((direction == Direction::Left || direction == Direction::Right)
                         && self.common.config.cosmic_conf.workspaces.workspace_layout
                             == WorkspaceLayout::Vertical)
@@ -467,7 +467,7 @@ impl State {
                     }
                     Ok(None) => {}
                     Err(_) if propagate => {
-                        if let Some(inferred) = pattern.inferred_direction() {
+                        if let Some(inferred) = direction {
                             self.handle_shortcut_action(
                                 if matches!(x, Action::MoveToPreviousWorkspace) {
                                     Action::MoveToOutput(inferred)
